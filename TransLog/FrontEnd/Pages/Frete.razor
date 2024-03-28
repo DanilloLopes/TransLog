@@ -41,19 +41,9 @@
 
 @if (exibirFrete)
 {
-    <div class="row mt-16 p-5">
-        <div class="col-md-12">
-            <div class="h-100 text-center p-5 rounded-3"
-                 style="background: blue">
+    
+    <p>O valor do frete é: @_freteResponse.CustoFrete</p>
 
-                <h2>@_freteResponse.CustoFrete</h2>
-                <h5>
-                    <span>@_freteResponse.CustoFrete.ToString()</span>
-                </h5>
-                
-            </div>
-        </div>
-    </div>
 }
 
 
@@ -73,8 +63,11 @@
             _freteResponse = await http.GetFromJsonAsync<FreteResponse>(apiUrl);
 
             //Verifica se existe um valor para a cor de fundo, se existir exibe a carteirinha
-            
+            if(_freteResponse.CustoFrete != 0)
+            {
                 exibirFrete = true;
+            }
+                
             
         }
         catch (Exception e)
