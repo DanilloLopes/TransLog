@@ -1,5 +1,84 @@
-﻿<h3>Frete</h3>
+﻿@page "/frete"
+@using FrontEnd.Models.Response
+@using FrontEnd.Models.Request
+
+<h3>Carteirinha</h3>
+<EditForm Model="_freteRequest" OnInvalidSubmit="PrecoFrete">
+    <DataAnnotationsValidator/>
+    <div class="row md-2">
+        <div class="col-4">
+            <label>Distâcia do frete</label>
+            <InputNumber @bind-Value="_freteRequest.Distancia" class="form-control" />
+            <ValidationMessage For="() => _freteRequest.Distancia" />
+        </div>
+        <div class="col-4">
+            <label>Peso da Carga</label>
+            <InputNumber @bind-Value="_freteRequest.Peso" class="form-control" />
+            <ValidationMessage For="() => _freteRequest.Distancia" />
+        </div>
+        <div class="col-4">
+            <label>Altura Caixa</label>
+            <InputNumber @bind-Value="_freteRequest.Altura" class="form-control" />
+            <ValidationMessage For="() => _freteRequest.Distancia" />
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-4">
+            <label>Comrpimento Caixa</label>
+            <InputNumber @bind-Value="_freteRequest.Comprimento" class="form-control" />
+            <ValidationMessage For="() => _freteRequest.Distancia" />
+        </div>
+        <div class="col-4">
+            <label>Largura Caixa</label>
+            <InputNumber @bind-Value="_freteRequest.Largura" class="form-control" />
+            <ValidationMessage For="() => _freteRequest.Distancia" />
+        </div>
+        <div class="col-2">
+            <button type="submit" class="btn btn-outline-primary mt-2">Gerar Preco</button>
+        </div>
+    </div>
+</EditForm>
+
+@if (exibirFrete)
+{
+    <div class="row mt-4 p-5">
+        <div class="col-md-12">
+            <div class="h-100 text-center p-5 rounded-3"
+                 style="background: blue">
+
+                <h2>@_freteResponse.CustoFrete</h2>
+                
+            </div>
+        </div>
+    </div>
+}
+
 
 @code {
+    private FreteRequest _freteRequest { get; set; } = new();
+    private FreteResponse _freteResponse { get; set; } = new();
+    private bool exibirFrete = false;
 
+    private async Task PrecoFrete()
+    {
+        var apiUrl = $"https://localhost:7284/Frete/freteObter?Altura={_freteRequest.Altura}&Largura{_freteRequest.Largura}&Comprimento={_freteRequest.Comprimento}&Distancia={_freteRequest.Distancia}&Peso={_freteRequest.Peso}";
+        var http = new HttpClient();
+
+
+        try
+        {
+            //faça um httpget para a api passando o nome e a data de nascimento o retorno é um objeto do tipo CarteirinhaResponse
+            _freteResponse = await http.GetFromJsonAsync<FreteResponse>(apiUrl);
+
+            //Verifica se existe um valor para a cor de fundo, se existir exibe a carteirinha
+            
+                exibirFrete = true;
+            
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            throw;
+        }
+    }
 }
