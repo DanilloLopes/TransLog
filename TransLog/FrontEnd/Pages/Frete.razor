@@ -63,10 +63,9 @@
             _freteResponse = await http.GetFromJsonAsync<FreteResponse>(apiUrl);
 
             //Verifica se existe um valor para a cor de fundo, se existir exibe a carteirinha
-            if(_freteResponse.CustoFrete != 0)
-            {
+            
                 exibirFrete = true;
-            }
+            
                 
             
         }
