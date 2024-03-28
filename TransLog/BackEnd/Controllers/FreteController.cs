@@ -24,7 +24,7 @@ namespace BackEnd.Controllers
                 var response = new FreteResponse();
 
                 response.CustoFrete = custoTotal;
-                return Ok(response.CustoFrete);
+                return Ok(response);
                 
             }
             catch (Exception ex) 
