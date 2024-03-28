@@ -3,7 +3,7 @@
 @using FrontEnd.Models.Request
 
 <h3>Carteirinha</h3>
-<EditForm Model="_freteRequest" OnInvalidSubmit="PrecoFrete">
+<EditForm Model="_freteRequest" OnSubmit="PrecoFrete">
     <DataAnnotationsValidator/>
     <div class="row md-2">
         <div class="col-4">
@@ -41,12 +41,15 @@
 
 @if (exibirFrete)
 {
-    <div class="row mt-4 p-5">
+    <div class="row mt-16 p-5">
         <div class="col-md-12">
             <div class="h-100 text-center p-5 rounded-3"
                  style="background: blue">
 
                 <h2>@_freteResponse.CustoFrete</h2>
+                <h5>
+                    <span>@_freteResponse.CustoFrete.ToString()</span>
+                </h5>
                 
             </div>
         </div>
@@ -63,7 +66,6 @@
     {
         var apiUrl = $"https://localhost:7284/Frete/freteObter?Altura={_freteRequest.Altura}&Largura{_freteRequest.Largura}&Comprimento={_freteRequest.Comprimento}&Distancia={_freteRequest.Distancia}&Peso={_freteRequest.Peso}";
         var http = new HttpClient();
-
 
         try
         {
